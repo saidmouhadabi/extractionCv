@@ -47,3 +47,23 @@ def extract_text(file_path):
             raise ValueError("Format de fichier non pris en charge")
     except Exception as e:
         raise Exception(f"Erreur lors de l'extraction du texte : {str(e)}")
+
+def save_files(files):
+    saved_paths = []
+    for file in files:
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            if not os.path.exists(Config.UPLOAD_FOLDER):
+                os.makedirs(Config.UPLOAD_FOLDER)
+            filepath = os.path.join(Config.UPLOAD_FOLDER, filename)
+            file.save(filepath)
+            saved_paths.append(filepath)
+    return saved_paths if saved_paths else None
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in Config.ALLOWED_EXTENSIONS
+
+def secure_filename(filename):
+    from werkzeug.utils import secure_filename
+    return secure_filename(filename)
