@@ -1,8 +1,8 @@
 import os
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-key-12345')
+    SECRET_KEY = os.getenv('SECRET_KEY', 'default-secret-key')  # Ajoute aussi la clé secrète
+    GROQ_API_KEY = os.getenv('GROQ_API_KEY', 'default_api_key')
     UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'uploads')
-    MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max file size
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB
     ALLOWED_EXTENSIONS = {'pdf', 'docx', 'txt'}
-    GROQ_API_KEY = os.environ.get('GROQ_API_KEY', 'default_api_key')
